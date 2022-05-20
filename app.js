@@ -11,6 +11,7 @@ const connection = mysql.createConnection({
 const app = express();
 
 app.get('/', (req, res) => {
+    console.log('get called');
     let sql = "SELECT * FROM applicant_info";
     connection.query(sql, (err, results) =>{
         res.send(results);
@@ -18,10 +19,12 @@ app.get('/', (req, res) => {
 });
 
 app.listen('3000', () => {
-    console.log('Server running on port 3000');
     connection.connect((err) => {
         if(err) {
-        };
-        console.log('Database Connected!');
+          console.log('Database not connected!', err);
+        } else {
+          console.log('Server running on port 3000');
+          console.log('Database Connected!');
+        }
     })
 });
