@@ -1,16 +1,20 @@
-const express = require('express');
+const express = require("express");
+const mysql = require('mySQL');
+
+const connection = mysql.createConnection({
+        host    : 'localhost',
+        user    : 'root',
+        password: 'Arcinblade3',
+        database: 'applicants'
+});
 
 const app = express();
-const connection = require('./database');
 
 app.get('/', (req, res) => {
-    let sql = 'SELECT * FROM applicant_info';
+    let sql = "SELECT * FROM applicant_info";
     connection.query(sql, (err, results) =>{
-        if (err){
-        };
         res.send(results);
     })
-    res.send('This is the beginning.');
 });
 
 app.listen('3000', () => {
