@@ -1,5 +1,6 @@
 const textElement = document.getElementById('text');
 const optionButtonsElement = document.getElementById('option-buttons');
+const textBoxesElement = document.getElementById('text-boxes');
 
 let state = {};
 
@@ -11,16 +12,34 @@ function startGame() {
 function showTextNode(textNodeIndex) {
     const textNode = textNodes.find(textNode => textNode.id === textNodeIndex);
     textElement.innerText = textNode.text;
-    while(optionButtonsElement.firstChild) {
-        optionButtonsElement.removeChild(optionButtonsElement.firstChild);
+    while(optionButtonsElement.firstChild || textBoxesElement.firstChild) {
+        if(optionButtonsElement.firstChild){
+            optionButtonsElement.removeChild(optionButtonsElement.firstChild);
+        }
+        if(textBoxesElement.firstChild) {
+            textBoxesElement.removeChild(textBoxesElement.firstChild);
+        }
     }
 
+    if (textNodeIndex === 1 || textNodeIndex === 8) {
+        const textBox = document.createElement('input');
+        textBox.type = "text";
+        textBox.classList.add('txtbx');
+        textBox.id = 'inputBox';
+        textBoxesElement.appendChild(textBox);
+    }
     textNode.options.forEach(option => {
         if (showOption(option)) {
             const button = document.createElement('button');
             button.innerText = option.text;
             button.classList.add('btn');
-            button.addEventListener('click', () => selectOption(option));
+            if(textNodeIndex === 9 && option.text === "No") {
+                button.setAttribute('disabled', 'disabled');
+            }
+            if (textNodeIndex === 35) {
+                button.addEventListener('click', () => calculate(option, textNodeIndex))
+            }
+            else button.addEventListener('click', () => selectOption(option, textNodeIndex));
             optionButtonsElement.appendChild(button); 
         }
     })
@@ -30,7 +49,10 @@ function showOption(option) {
     return option.requiredState == null || option.requiredState(state);
 }
 
-function selectOption(option) {
+function selectOption(option, currentTextNodeId) {
+    if (currentTextNodeId === 1 || currentTextNodeId === 8) {
+
+    }
     const nextTextNodeId = option.nextText;
     if (nextTextNodeId <= 0) {
         return startGame();
@@ -39,182 +61,245 @@ function selectOption(option) {
     showTextNode(nextTextNodeId);
 }
 
+function calculate(){
+
+}
+
 const textNodes = [
     {
+        id: 1,
+        text: '1. What is your E-Mail?',
+        options: [
+            {
+                text: 'Start the Questionnaire',
+                nextText: 2,
+            }
+        ]
+    },
+    {
         id: 2,
-        text: 'What is your Gender?',
+        text: '2. What is your Gender?',
         options: [
             {
                 text: 'Male',
-                nextText: 3
+                nextText: 3,
+                setState: { gender: 'Male'}
             },
             {
                 text: 'Female',
-                nextText: 3
+                nextText: 3,
+                setState: { gender: 'Female'}
             },
             {
                 text: 'Other',
-                nextText: 3
+                nextText: 3,
+                setState: { gender: 'Other'}
+
             }
         ]
     },
     {
         id: 3,
-        text: 'What is your Age Range?',
+        text: '3. What is your Age Range?',
         options: [
             {
                 text: '18-21',
-                nextText: 4
+                nextText: 4,
+                setState: { ageRange: '18-21'}
             },
             {
                 text: '22-25',
-                nextText: 4
+                nextText: 4,
+                setState: { ageRange: '22-25'}
             },
             {
                 text: '26-29',
-                nextText: 4
+                nextText: 4,
+                setState: { ageRange: '26-29'}
             },
             {
                 text: '30+',
-                nextText: 4
+                nextText: 4,
+                setState: { ageRange: '30+'}
             }
         ]
     },
     {
         id: 4,
-        text: 'What is your Major Type?',
+        text: '4. What is your Major Type?',
         options: [
             {
                 text: 'Bio-Chem',
-                nextText: 5
+                nextText: 5,
+                setState: { majorType: 'Bio-Chem'}
             },
             {
                 text: 'Trade-Econ',
-                nextText: 5
+                nextText: 5,
+                setState: { majorType: 'Trade-Econ'}
             },
             {
                 text: 'Math-Physics',
-                nextText: 5
+                nextText: 5,
+                setState: { majorType: 'Math-Physics'}
             },
             {
                 text: 'IT-Programming',
-                nextText: 5
+                nextText: 5,
+                setState: { majorType: 'IT-Programming'}
             },
             {
                 text: 'Art-Design',
-                nextText: 5
+                nextText: 5,
+                setState: { majorType: 'Art-Design'}
             },
             {
                 text: 'Medicine-Care',
-                nextText: 5
+                nextText: 5,
+                setState: { majorType: 'Medicine-Care'}
             },
             {
                 text: 'Comms-Information',
-                nextText: 5
+                nextText: 5,
+                setState: { majorType: 'Comms-Information'}
             },
             {
                 text: 'Psych-Education',
-                nextText: 5
+                nextText: 5,
+                setState: { majorType: 'Psych-Education'}
             },
             {
                 text: 'Soc-Politics',
-                nextText: 5
+                nextText: 5,
+                setState: { majorType: 'Soc-Politics'}
             },
             {
                 text: 'Language-Culture',
-                nextText: 5
+                nextText: 5,
+                setState: { majorType: 'Language-Culture'}
             },
             {
                 text: 'Construct-Dev',
-                nextText: 5
+                nextText: 5,
+                setState: { majorType: 'Construct-Dev'}
             }
         ]
     },
     {
         id: 5,
-        text: 'What is your current Semester?',
+        text: '5. What is your current Semester?',
         options: [
             {
+                text: '0',
+                nextText: 6,
+                setState: { semester: '0'}
+            },
+            {
                 text: '1',
-                nextText: 6
+                nextText: 6,
+                setState: { semester: '1'}
             },
             {
                 text: '2',
-                nextText: 6
+                nextText: 6,
+                setState: { semester: '2'}
             },
             {
                 text: '3',
-                nextText: 6
+                nextText: 6,
+                setState: { semester: '3'}
             },
             {
                 text: '4',
-                nextText: 6
+                nextText: 6,
+                setState: { semester: '4'}
             },
             {
                 text: '5',
-                nextText: 6
+                nextText: 6,
+                setState: { semester: '5'}
             },
             {
                 text: '6',
-                nextText: 6
+                nextText: 6,
+                setState: { semester: '6'}
             },
             {
                 text: '7',
-                nextText: 6
+                nextText: 6,
+                setState: { semester: '7'}
             },
             {
                 text: '8',
-                nextText: 6
+                nextText: 6,
+                setState: { semester: '8'}
             },
             {
                 text: '9',
-                nextText: 6
+                nextText: 6,
+                setState: { semester: '9'}
             }
         ]
     },
     {
         id: 6,
-        text: 'Are you a danish national, or are you of foreign descent?',
+        text: '6. Are you a danish national, or are you of foreign descent?',
         options: [
             {
                 text: 'Domestic',
-                nextText: 7
+                nextText: 7,
+                setState: { nationality: 'Domestic'}
             },
             {
                 text: 'Foreign',
-                nextText: 7
+                nextText: 7,
+                setState: { nationality: 'Domestic'}
             }
         ]
     },
     {
         id: 7,
-        text: 'What is your preferred section of Aalborg to live in?',
+        text: '7. What is your preferred section of Aalborg to live in?',
         options: [
             {
                 text: '9000 Aalborg',
-                nextText: 8
+                nextText: 8,
+                setState: { section: '9000'}
             },
             {
                 text: '9200 Aalborg SV',
-                nextText: 8
+                nextText: 8,
+                setState: { section: '9200'}
             },
             {
                 text: '9210 Aalborg SØ',
-                nextText: 8
+                nextText: 8,
+                setState: { section: '9210'}
             },
             {
                 text: '9220 Aalborg Ø',
-                nextText: 8
+                nextText: 8,
+                setState: { section: '9220'}
+            }
+        ]
+    },
+    {
+        id: 8,
+        text: '8. What is your Monthly Budget?',
+        options: [
+            {
+                text: 'Next Question',
+                nextText: 9
             }
         ]
     },
     {
         id: 9,
-        text: 'Do you want a roommate?',
+        text: '9. Do you want a roommate?',
         options: [
             {
                 text: 'Yes',
-                nextText: 10
+                nextText: 10,
             },
             {
                 text: 'No',
@@ -224,431 +309,518 @@ const textNodes = [
     },
     {
         id: 10,
-        text: 'Are you a smoker?',
+        text: '10.1. Are you a smoker?',
         options: [
             {
                 text: 'Yes',
-                nextText: 11
+                nextText: 11,
+                setState: { smokeStatus: 'Yes'}
             },
             {
                 text: 'No',
-                nextText: 11
+                nextText: 11,
+                setState: { smokeStatus: 'No'}
             }
         ]
     },
     {
         id: 11,
-        text: 'Do you mind if your roommate is a smoker?',
+        text: '10.2. Do you mind if your roommate is a smoker?',
         options: [
             {
                 text: 'Yes',
-                nextText: 12
+                nextText: 12,
+                setState: { prfSmoke: 'Yes'}
             },
             {
                 text: 'No',
-                nextText: 13
+                nextText: 13,
+                setState: { prfSmoke: 'No'}
             }
         ]
     },
     {
         id: 12,
-        text: 'From a scale of 1 to 4, how much do you mind?',
+        text: '10.3. From a scale of 1 to 4, how much do you mind?',
         options: [
             {
                 text: '1',
-                nextText: 13
+                nextText: 13,
+                setState: { prfSmokeInt: '1'}
             },
             {
                 text: '2',
-                nextText: 13 
+                nextText: 13,
+                setState: { prfSmokeInt: '2'}
             },
             {
                 text: '3',
-                nextText: 13
+                nextText: 13,
+                setState: { prfSmokeInt: '3'}
             },
             {
                 text: '4',
-                nextText: 13
+                nextText: 13,
+                setState: { prfSmokeInt: '4'}
             }
         ]
     },
     {
         id: 13,
-        text: 'Do you have a preference for the gender of your roommate?',
+        text: '11.1 Do you have a preference for the gender of your roommate?',
         options: [
             {
                 text: 'Yes',
-                nextText: 14
+                nextText: 14,
+                setState: { prfGender: 'Yes'}
             },
             {
                 text: 'No',
-                nextText: 15
+                nextText: 15,
+                setState: { prfGender: 'No'}
             }
         ]
     },
     {
         id: 14,
-        text: 'Do you prefer to room with a male or female student?',
+        text: '11.2 Do you prefer to room with a male or female student?',
         options: [
             {
                 text: 'Male',
-                nextText: 15
+                nextText: 15,
+                setState: { prfGenderSpec: 'Male'}
             },
             {
                 text: 'Female',
-                nextText: 15
+                nextText: 15,
+                setState: { prfGenderSpec: 'Female'}
             },
             {
                 text: 'Other',
-                nextText: 15
+                nextText: 15,
+                setState: { prfGenderSpec: 'Other'}
             }
         ]
     },
     {
         id: 15,
-        text: 'Do you have a preference for the age range of your roommate?',
+        text: '12.1 Do you have a preference for the age range of your roommate?',
         options: [
             {
                 text: 'Yes',
-                nextText: 16
+                nextText: 16,
+                setState: { prfAge: 'Yes'}
             },
             {
                 text: 'No',
-                nextText: 18
+                nextText: 18,
+                setState: { prfAge: 'No'}
             }
         ]
     },
     {
         id: 16,
-        text: 'Which age range would you prefer?',
+        text: '12.2 Which age range would you prefer?',
         options: [
             {
                 text: '18-21',
-                nextText: 17
+                nextText: 17,
+                setState: { prfAgeSpec: '18-21'}
             },
             {
                 text: '22-25',
-                nextText: 17
+                nextText: 17,
+                setState: { prfAgeSpec: '22-25'}
             },
             {
                 text: '26-29',
-                nextText: 17
+                nextText: 17,
+                setState: { prfAgeSpec: '26-29'}
             },
             {
                 text: '30+',
-                nextText: 17
+                nextText: 17,
+                setState: { prfAgeSpec: '30+'}
             }
         ]
     },
     {
         id: 17,
-        text: 'On a scale from 1 to 4, how much does the age range of your roommate matter?',
+        text: '12.3 On a scale from 1 to 4, how much does the age range of your roommate matter?',
         options: [
             {
                 text: '1',
-                nextText: 18
+                nextText: 18,
+                setState: { prfAgeInt: '1'}
             },
             {
                 text: '2',
-                nextText: 18
+                nextText: 18,
+                setState: { prfAgeInt: '2'}
             },
             {
                 text: '3',
-                nextText: 18
+                nextText: 18,
+                setState: { prfAgeInt: '3'}
             },
             {
                 text: '4',
-                nextText: 18
+                nextText: 18,
+                setState: { prfAgeInt: '4'}
             }
         ]
     },
     {
         id: 18,
-        text: 'Would you consider yourself a religious person?',
+        text: '13.1 Would you consider yourself a religious person?',
         options: [
             {
                 text: 'Yes',
-                nextText: 19
+                nextText: 19,
+                setState: { faith: 'Yes'}
             },
             {
                 text: 'No',
-                nextText: 19
+                nextText: 19,
+                setState: { faith: 'No'}
             }
         ]
     },
     {
         id: 19,
-        text: 'Could your roommate be religious?',
+        text: '13.2 Could your roommate be religious?',
         options: [
             {
                 text: 'Yes',
-                nextText: 20
+                nextText: 20,
+                setState: { prfFaith: 'Yes'}
             },
             {
                 text: 'No',
-                nextText: 20
+                nextText: 20,
+                setState: { prfFaith: 'No'}
             }
         ]
     },
     {
         id: 20,
-        text: 'Do you have a preference for your roommates place in university compared to yourself?',
+        text: '14.1 Do you have a preference for your roommates place in university compared to yourself?',
         options: [
             {
                 text: 'Yes',
-                nextText: 21
+                nextText: 21,
+                setState: { prfUni: 'Yes'}
             },
             {
                 text: 'No',
-                nextText: 22
+                nextText: 22,
+                setState: { prfUni: 'No'}
             }
         ]
     },
     {
         id: 21,
-        text: 'Where do you prefer them to be in their education?',
+        text: '14.2 Where do you prefer them to be in their education?',
         options: [
             {
                 text: 'Same Major Type',
-                nextText: 22
+                nextText: 22,
+                setState: { prfUniSpec: 'Major Type'}
             },
             {
                 text: 'Same Semester',
-                nextText: 22
+                nextText: 22,
+                setState: { prfUniSpec: 'Semester'}
+
             },
             {
                 text: 'Both',
-                nextText: 22
+                nextText: 22,
+                setState: { prfUniSpec: 'Both'}
+
             },
             {
                 text: 'Neither',
-                nextText: 22
+                nextText: 22,
+                setState: { prfUniSpec: 'Neither'}
+
             }
         ]
     },
     {
         id: 22,
-        text: 'Do you have a preference for your roommates nationality?',
+        text: '15.1 Do you have a preference for your roommates nationality?',
         options: [
             {
                 text: 'Yes',
-                nextText: 23
+                nextText: 23,
+                setState: { prfNat: 'Yes'}
+
             },
             {
                 text: 'No',
-                nextText: 24
+                nextText: 24,
+                setState: { prfNat: 'No'}
+
             }
         ]
     },
     {
         id: 23,
-        text: 'Do you prefer your roommate to be a danish national, or from abroad?',
+        text: '15.2 Do you prefer your roommate to be a danish national, or from abroad?',
         options: [
             {
-                text: 'Domestic',
-                nextText: 24
+                text: 'Danish National',
+                nextText: 24,
+                setState: { prfNatSpec: 'Domestic'}
+
             },
             {
-                text: 'Foreign',
-                nextText: 24
+                text: 'From Abroad',
+                nextText: 24,
+                setState: { prfNatSpec: 'Foreign'}
+
             }
         ]
     },
     {
         id: 24,
-        text: 'How often do you plan on having visitors?',
+        text: '16.1 How often do you plan on having visitors?',
         options: [
             {
                 text: 'Every Day',
-                nextText: 25
+                nextText: 25,
+                setState: { visitors: 'Every Day'}
+
             },
             {
                 text: 'A few times a week',
-                nextText: 25
+                nextText: 25,
+                setState: { visitors: 'A few times a week'}
             },
             {
                 text: 'Once a week',
-                nextText: 25
+                nextText: 25,
+                setState: { visitors: 'Once a week'}
             },
             {
                 text: 'Once a month',
-                nextText: 25
+                nextText: 25,
+                setState: { visitors: 'Once a month'}
             },
             {
                 text: 'Very Rarely',
-                nextText: 25
+                nextText: 25,
+                setState: { visitors: 'Very Rarely'}
             }
         ]
     },
     {
         id: 25,
-        text: 'Do you mind your roommate having visitors over?',
+        text: '16.2 Do you mind your roommate having visitors over?',
         options: [
             {
                 text: 'Yes',
-                nextText: 26
+                nextText: 26,
+                setState: { prfVisitors: 'Yes'}
             },
             {
                 text: 'No',
-                nextText: 27
+                nextText: 27,
+                setState: { prfVisitors: 'No'}
             }
         ]
     },
     {
         id: 26,
-        text: 'How often is too much?',
+        text: '16.3 How often is too much?',
         options: [
             {
                 text: 'Every Day',
-                nextText: 27
+                nextText: 27,
+                setState: { prfVisitorsSpec: 'Every Day'}
             },
             {
                 text: 'A few times a week',
-                nextText: 27
+                nextText: 27,
+                setState: { prfVisitorsSpec: 'A few times a week'}
             },
             {
                 text: 'Once a week',
-                nextText: 27
+                nextText: 27,
+                setState: { prfVisitorsSpec: 'Once a week'}
             },
             {
                 text: 'Once a month',
-                nextText: 27
+                nextText: 27,
+                setState: { prfVisitorsSpec: 'Once a month'}
             },
             {
                 text: 'Very Rarely',
-                nextText: 27
+                nextText: 27,
+                setState: { prfVisitorsSpec: 'Very Rarely'}
             }
         ]
     },
     {
         id: 27,
-        text: 'When do you typically go to sleep?',
+        text: '17.1 When do you typically go to sleep?',
         options: [
             {
                 text: 'Before 21:00',
-                nextText: 28
+                nextText: 28,
+                setState: { sleepyTime: 'Before 21'}
             },
             {
                 text: 'Before Midnight',
-                nextText: 28
+                nextText: 28,
+                setState: { sleepyTime: 'Before Midnight'}
             },
             {
                 text: 'After Midnight',
-                nextText: 28
+                nextText: 28,
+                setState: { sleepyTime: 'After Midnight'}
             }
         ]
     },
     {
         id: 28,
-        text: 'Would you mind your roommate going to sleep late?',
+        text: '17.2 Would you mind your roommate going to sleep late?',
         options: [
             {
                 text: 'Yes',
-                nextText: 29
+                nextText: 29,
+                setState: { prfSleep: 'Yes'}
             },
             {
                 text: 'No',
-                nextText: 30
+                nextText: 30,
+                setState: { prfSleep: 'No'}
             }
         ]
     },
     {
         id: 29,
-        text: 'On a scale from 1 to 4, how much do you mind your roommate going to sleep late?',
+        text: '17.3 On a scale from 1 to 4, how much do you mind your roommate going to sleep late?',
         options: [
             {
                 text: '1',
-                nextText: 30
+                nextText: 30,
+                setState: { prfSleepInt: '1'}
             },
             {
                 text: '2',
-                nextText: 30
+                nextText: 30,
+                setState: { prfSleepInt: '2'}
             },
             {
                 text: '3',
-                nextText: 30
+                nextText: 30,
+                setState: { prfSleepInt: '3'}
             },
             {
                 text: '4',
-                nextText: 30
+                nextText: 30,
+                setState: { prfSleepInt: '4'}
             }
         ]
     },
     {
         id: 30,
-        text: 'Do you prefer to study with company, or alone?',
+        text: '18.1 Do you prefer to study with company, or alone?',
         options: [
             {
                 text: 'With Company',
-                nextText: 31
+                nextText: 31,
+                setState: { prfStudyComp: 'People'}
             },
             {
                 text: 'Alone',
-                nextText: 31
+                nextText: 31,
+                setState: { prfStudyComp: 'Alone'}
             }
         ]
     },
     {
         id: 31,
-        text: 'Do you prefer to study in a silent or noisy environment',
+        text: '18.2 Do you prefer to study in a silent or noisy environment?',
         options: [
             {
                 text: 'Silence',
-                nextText: 32
+                nextText: 32,
+                setState: { prfStudyAud: 'Silence'}
             },
             {
                 text: 'Noise',
-                nextText: 32
+                nextText: 32,
+                setState: { prfStudyAud: 'Noise'}
             }
         ]
     },
     {
         id: 32,
-        text: 'Do you have a special diet?',
+        text: '19.1 Do you have a special diet?',
         options: [
             {
                 text: 'Yes',
-                nextText: 33
+                nextText: 33,
+                setState: { specialDiet: 'Yes'}
             },
             {
                 text: 'No',
-                nextText: 33
+                nextText: 33,
+                setState: { specialDiet: 'No'}
             }
         ]
     },
     {
         id: 33,
-        text: 'Would you mind your roommate having a special diet?',
+        text: '19.2 Would you mind your roommate having a special diet?',
         options: [
             {
                 text: 'Yes',
-                nextText: 34
+                nextText: 34,
+                setState: { prfSpecialDiet: 'Yes'}
             },
             {
                 text: 'No',
-                nextText: 35
+                nextText: 35,
+                setState: { prfSpecialDiet: 'No'}
             }
         ]
     },
     {
         id: 34,
-        text: 'On a scale of 1 to 4, how much would you mind your roommate having a special diet?',
+        text: '19.3 On a scale of 1 to 4, how much would you mind your roommate having a special diet?',
         options: [
             {
                 text: '1',
-                nextText: 35
+                nextText: 35,
+                setState: { prfSpecialDietInt: '1'}
             },
             {
                 text: '2',
-                nextText: 35
+                nextText: 35,
+                setState: { prfSpecialDietInt: '2'}
             },
             {
                 text: '3',
-                nextText: 35
+                nextText: 35,
+                setState: { prfSpecialDietInt: '3'}
             },
             {
                 text: '4',
-                nextText: 35
+                nextText: 35,
+                setState: { prfSpecialDietInt: '4'}
+            }
+        ]
+    },
+    {
+        id: 35,
+        text: '20. Are you ready to find your matching roommate?',
+        options: [
+            {
+                text: 'Calculate'
             }
         ]
     },
@@ -665,7 +837,6 @@ const textNodes = [
             {
                 text: 'trade goo for shield',
                 requiredState: (currentState) => currentState.blueGoo,
-                setState: { blueGoo: false, shield: true},
                 nextText: 3
             },
             {

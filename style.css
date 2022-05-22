@@ -39,6 +39,11 @@ body {
     outline: none
 }
 
-.bnt:hover {
+.btn:hover {
     border-color: black;
+}
+
+.txtbx {
+    padding: 2px 5px;
+    margin-top: 10px;
 }
