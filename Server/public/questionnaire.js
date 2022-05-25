@@ -51,12 +51,23 @@ function showOption(option) {
     return option.requiredState == null || option.requiredState(state);
 }
 
-function selectOption(option) {
+function selectOption(option, textNodeIndex) {
+    var boxText = 'nig';
     const nextTextNodeId = option.nextText;
     if (nextTextNodeId <= 0) {
         return startGame();
     }
     state = Object.assign(state, option.setState);
+    if (textNodeIndex === 1 || textNodeIndex === 8) {
+        if (textNodeIndex === 1) {
+            boxText = { tEmail: getTextBox('inputBox') };
+            state = Object.assign(state, boxText.tEmail);
+        }
+        else {
+            boxText = { tBudget: getTextBox('inputBox')};
+            state = Object.assign(state, boxText.tBudget);
+        }
+    }
     showTextNode(nextTextNodeId);
 }
 
@@ -71,8 +82,7 @@ const textNodes = [
         options: [
             {
                 text: 'Start the Questionnaire',
-                nextText: 2,
-                setState: getTextBox("email")
+                nextText: 2
             }
         ]
     },
@@ -289,8 +299,7 @@ const textNodes = [
         options: [
             {
                 text: 'Next Question',
-                nextText: 9,
-                setState: getTextBox("budget")
+                nextText: 9
             }
         ]
     },
