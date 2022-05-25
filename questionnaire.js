@@ -4,6 +4,10 @@ const textBoxesElement = document.getElementById('text-boxes');
 
 let state = {};
 
+function getTextBox(boxID) {
+    return document.getElementById(boxID).value;
+  }
+
 function startGame() {
     state = {};
     showTextNode(1);
@@ -50,9 +54,6 @@ function showOption(option) {
 }
 
 function selectOption(option, currentTextNodeId) {
-    if (currentTextNodeId === 1 || currentTextNodeId === 8) {
-
-    }
     const nextTextNodeId = option.nextText;
     if (nextTextNodeId <= 0) {
         return startGame();
@@ -73,6 +74,7 @@ const textNodes = [
             {
                 text: 'Start the Questionnaire',
                 nextText: 2,
+                setState: getTextBox("email")
             }
         ]
     },
@@ -289,7 +291,8 @@ const textNodes = [
         options: [
             {
                 text: 'Next Question',
-                nextText: 9
+                nextText: 9,
+                setState: getTextBox("budget")
             }
         ]
     },
