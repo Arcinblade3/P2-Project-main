@@ -2,8 +2,6 @@ const textElement = document.getElementById('text');
 const optionButtonsElement = document.getElementById('option-buttons');
 const textBoxesElement = document.getElementById('text-boxes');
 
-let state = {};
-
 function getTextBox(boxID) {
     return document.getElementById(boxID).value;
   }
@@ -41,7 +39,7 @@ function showTextNode(textNodeIndex) {
                 button.setAttribute('disabled', 'disabled');
             }
             if (textNodeIndex === 35) {
-                button.addEventListener('click', () => calculate(option, textNodeIndex))
+                button.addEventListener('click', () => calculate(option)) 
             }
             else button.addEventListener('click', () => selectOption(option, textNodeIndex));
             optionButtonsElement.appendChild(button); 
@@ -53,7 +51,7 @@ function showOption(option) {
     return option.requiredState == null || option.requiredState(state);
 }
 
-function selectOption(option, currentTextNodeId) {
+function selectOption(option) {
     const nextTextNodeId = option.nextText;
     if (nextTextNodeId <= 0) {
         return startGame();
@@ -62,8 +60,8 @@ function selectOption(option, currentTextNodeId) {
     showTextNode(nextTextNodeId);
 }
 
-function calculate(){
-
+function calculate(option){
+    let applicant = {}
 }
 
 const textNodes = [
@@ -85,12 +83,12 @@ const textNodes = [
             {
                 text: 'Male',
                 nextText: 3,
-                setState: { gender: 'Male'}
+                setState: { tGender: 'Male'}
             },
             {
                 text: 'Female',
                 nextText: 3,
-                setState: { gender: 'Female'}
+                setState: { tGender: 'Female'}
             },
             {
                 text: 'Other',
