@@ -1,6 +1,6 @@
 const textElement = document.getElementById('text');
 const optionButtonsElement = document.getElementById('option-buttons');
-const textBoxesElement = document.getElementById('text-boxes');
+const textBoxesElement = document.getElementById('text-boxes'); 
 
 function getTextBox(boxID) {
     return document.getElementById(boxID).value;
@@ -30,18 +30,24 @@ function showTextNode(textNodeIndex) {
         textBox.id = 'inputBox';
         textBoxesElement.appendChild(textBox);
     }
+
     textNode.options.forEach(option => {
-        if (showOption(option)) {
+        if (showOption(option) && textNodeIndex != 35) {
             const button = document.createElement('button');
             button.innerText = option.text;
             button.classList.add('btn');
             if(textNodeIndex === 9 && option.text === "No") {
                 button.setAttribute('disabled', 'disabled');
             }
-            if (textNodeIndex === 35) {
-                button.addEventListener('click', () => calculate(option)) 
-            }
-            else button.addEventListener('click', () => selectOption(option, textNodeIndex));
+            button.addEventListener('click', () => selectOption(option, textNodeIndex));
+            optionButtonsElement.appendChild(button); 
+        }
+        if (showOption(option) && textNodeIndex === 35){
+            const button = document.createElement('button');
+            button.innerText = "Calculate";
+            button.type = "submit"
+            button.classList.add('calc-btn');
+            button.addEventListener('click', () => submit());
             optionButtonsElement.appendChild(button); 
         }
     })
@@ -58,22 +64,205 @@ function selectOption(option, textNodeIndex) {
         return startGame();
     }
     state = Object.assign(state, option.setState);
+    console.log(state);
     if (textNodeIndex === 1 || textNodeIndex === 8) {
         if (textNodeIndex === 1) {
-            boxText = { tEmail: getTextBox('inputBox') };
-            state = Object.assign(state, boxText.tEmail);
+            boxText = { email: getTextBox('inputBox') };
+            state = Object.assign(state, boxText);
         }
         else {
-            boxText = { tBudget: getTextBox('inputBox')};
-            state = Object.assign(state, boxText.tBudget);
+            boxText = { budget: getTextBox('inputBox')};
+            state = Object.assign(state, boxText);
         }
+    console.log(boxText);
     }
     showTextNode(nextTextNodeId);
 }
 
-function calculate(option){
-    let applicant = {}
+function submit(){
+    let applicant = [{ Gender: state.gender, 
+        Email: state.email, 
+        Age_Range: state.ageRange, 
+        Major_Type: state.majorType,
+        Semester: state.semester, 
+        Nationality: state.nationality, 
+        Monthly_Budget: state.budget,
+        Aalborg_Section: state.section, 
+        Smoke_Status: state.smokeStatus, 
+        Prf_Smoke: state.prfSmoke, 
+        Prf_Smoke_Intensity: state.prfSmokeInt, 
+        Prf_Gender: state.prfGender, 
+        Prf_Gender_Specifics: state.prfGenderSpec,
+        Prf_Age: state.prfAge, 
+        Prf_Age_Specifics: state.prfAgeSpec, 
+        Prf_Age_Intensity: state.prfAgeInt,
+        Faith_Status: state.faith, 
+        Prf_Faith: state.prfFaith, 
+        Prf_Uni: state.prfUni, 
+        Prf_Uni_Specifics: state.prfUniSpec,
+        Prf_Nationality: state.prfNat, 
+        Prf_Nationality_Specifics: state.prfNatSpec, 
+        Visitor_Status: state.visitors,
+        Prf_Visitor: state.prfVisitors, 
+        Prf_Visitor_Limit: state.prfVisitorsSpec, 
+        Sleep_Schedule: state.sleepyTime,
+        Prf_Sleep: state.prfSleep, 
+        Prf_Sleep_Intensity: state.prfSleepInt, 
+        Prf_Study_Crowd: state.prfStudyComp,
+        Prf_Study_Noise: state.prfStudyAud, 
+        Dietary_Status: state.specialDiet, 
+        Prf_Diet: state.prfSpecialDiet, 
+        Prf_Diet_Int: state.prfSpecialDietInt 
+      }
+      ];
+
+let sql = applicant.map(item => `(${item.Gender}, ${item.Email}, ${item.Age_Range}, ${item.Major_Type}, ${item.Semester}, ${item.Nationality}, ${item.Monthly_Budget}, ${item.Aalborg_Section}, ${item.Smoke_Status}, ${item.Prf_Smoke}, ${item.Prf_Smoke_Intensity}, ${item.Prf_Gender}, ${item.Prf_Gender_Specifics}, ${item.Prf_Age}, ${item.Prf_Age_Specifics}, ${item.Prf_Age_Intensity}, ${item.Faith_Status}, ${item.Prf_Faith}, ${item.Prf_Uni}, ${item.Prf_Uni_Specifics}, ${item.Prf_Nationality}, ${item.Prf_Nationality_Specifics}, ${item.Visitor_Status}, ${item.Prf_Visitor}, ${item.Prf_Visitor_Limit}, ${item.Sleep_Schedule}, ${item.Prf_Sleep}, ${item.Prf_Sleep_Intensity}, ${item.Prf_Study_Crowd}, ${item.Prf_Study_Noise}, ${item.Dietary_Status}, ${item.Prf_Diet}, ${item.Prf_Diet_Int})`)
+
+console.log(sql);
+
+const finalQuery = "INSERT INTO applicants.applicant_info (gender, email, age_range, major_type, semester, nationality, monthly_budget, aalborg_section, smoke_status, prf_smoke, prf_smoke_intensity, prf_gender, prf_gender_specifics, prf_age, prf_age_specifics, prf_age_intensity, faith_status, prf_faith, prf_uni, prf_uni_specifics, prf_nationality, prf_nationality_specifics, visitor_status, prf_visitor, prf_visitor_limit, sleep_schedule, prf_sleep, prf_sleep_intensity, prf_study_crowd, prf_study_noise, dietary_status, prf_diet, prf_diet_intensity) VALUES " + sql;
+
+console.log("query("+finalQuery+")"); 
+
+// calculate(applicant);
+
 }
+
+function calculate(info){
+    let id;
+    for(i = 1; i < id; i++){
+        if (section == id.Aalborg_Section && budget >= id.Monthly_Budget){
+            var compatibility = 100;
+            if (smokeStatus == id.Smoke_Status){
+            compatibility*1.15;
+            }
+            if (prfSmoke == "Yes" && id.Smoke_Status == "Yes"){
+                if (prfSmokeInt == "1"){compatibility*0.9;}
+                else if (prfSmokeInt == "2"){compatibility*0.7;}
+                else if (prfSmokeInt == "3"){compatibility*0.5;}
+                else compatibility*0.3;
+            }
+            if (prfGender == "Yes"){
+                if (prfGenderSpec == id.Gender){compatibility*1.5;}
+                else compatibility*0.65;
+            }
+            if (prfAge == "Yes"){
+                if (prfAgeSpec == id.Prf_Age_Specifics){compatibility*1.2}
+                if (prfAgeSpec == id.Age_Range){
+                    if (prfAgeInt == "1"){compatibility*1.1}
+                    else if (prfAgeInt == "2"){compatibility*1.2}
+                    else if (prfAgeInt == "3"){compatibility*1.3}
+                    else compatibility*1.4;
+                }
+                else {
+                    if (prfAgeInt == "1"){compatibility*0.8}
+                    else if (prfAgeInt == "2"){compatibility*0.7}
+                    else if (prfAgeInt == "3"){compatibility*0.6}
+                    else compatibility*0.5;
+                }
+            }
+            if (prfFaith == "Yes"){
+                if (id.Faith_Status == "Yes"){compatibility*1.2}
+                else compatibility*0.75;
+            }
+            else {
+                if (id.Faith_Status == "No"){compatibility*1.3}
+                else compatibility*0.75;
+            }
+            if (prfNat == "Yes"){
+                if (prfNatSpec == id.Nationality) {compatibility*1.5}
+                else compatibility*0.8;
+            }
+            if (prfUni == "Yes"){
+                if (prfUniSpec == "Same Semester"){
+                    if (semester == id.Semester){compatibility*1.25}
+                }
+                else if (prfUniSpec == "Same Major Type") {
+                    if (majorType == id.Major_Type){compatibility*1.25}
+                }
+                else if (prfUniSpec == "Both") {
+                    if (majorType == id.Major_Type && semester == id.Semester) {compatibility*1.55}
+                    else if (majorType == id.Major_Type || semester == id.Semester) {compatibility*1.25}
+                }
+                else if (prfUniSpec == "Neither") {
+                    if (majorType != id.Major_Type && semester != id.Semester) {compatibility*1.55}
+                    else if (majorType != id.Major_Type || semester != id.Semester) {compatibility*1.25}
+                };
+            }
+            if (prfNat == "Yes"){
+                if (prfNatSpec == id.Nationality){compatibility*1.35}
+                else compatibility*0.7;
+            }
+            if (visitors == id.Visitor_Status){
+                compatibility*1.1;
+            }
+            else compatibility*0.9;
+            if (prfVisitors == "Yes"){
+                if (prfVisitorsSpec == "Very Rarely"){
+                    if (id.Visitor_Status == "Every Day"){compatibility*0.8*0.8*0.8*0.8*0.8}
+                    else if (id.Visitor_Status == "A few times a week") {compatibility*0.8*0.8*0.8*0.8}
+                    else if (id.Visitor_Status == "Once a week") {compatibility*0.8*0.8*0.8}
+                    else if (id.Visitor_Status == "Once a month") {compatibility*0.8*0.8}
+                    else if (id.Visitor_Status == "Very Rarely") {compatibility*0.8}
+                }
+                else if (prfVisitorsSpec == "Once a month"){
+                    if (id.Visitor_Status == "Every Day"){compatibility*0.8*0.8*0.8*0.8}
+                    else if (id.Visitor_Status == "A few times a week") {compatibility*0.8*0.8*0.8}
+                    else if (id.Visitor_Status == "Once a week") {compatibility*0.8*0.8}
+                    else if (id.Visitor_Status == "Once a month") {compatibility*0.8}
+                    else compatibility*1.3;
+                }
+                else if (prfVisitorsSpec == "Once a week"){
+                    if (id.Visitor_Status == "Every Day"){compatibility*0.8*0.8*0.8}
+                    else if (id.Visitor_Status == "A few times a week") {compatibility*0.8*0.8}
+                    else if (id.Visitor_Status == "Once a week") {compatibility*0.8}
+                    else compatibility*1.3;        
+                }
+                else if (prfVisitorsSpec == "A few times a week"){
+                    if (id.Visitor_Status == "Every Day"){compatibility*0.8*0.8}
+                    else if (id.Visitor_Status == "A few times a week") {compatibility*0.8}
+                    else compatibility*1.3;        
+                }
+                else if (prfVisitorsSpec == "Every Day"){
+                    if (id.Visitor_Status == "Every Day"){compatibility*0.8}
+                    else compatibility*1.3;
+                }
+            }
+            if (sleepyTime == id.Sleep_Schedule) {compatibility*1.15}
+            else compatibility*0.85;
+            if (prfSleep == "Yes"){
+                if (id.Sleep_Schedule == "Before Midnight"){
+                    if (prfSleepInt == "1"){compatibility*0.95}
+                    else if (prfSleepInt == "2"){compatibility*0.8}
+                    else if (prfSleepInt == "3"){compatibility*0.65}
+                    else compatibility*0.5;
+                }
+                else if (id.Sleep_Schedule == "After Midnight"){
+                    if (prfSleepInt == "1"){compatibility*0.8}
+                    else if (prfSleepInt == "2"){compatibility*0.6}
+                    else if (prfSleepInt == "3"){compatibility*0.4}
+                    else compatibility*0.2;
+                }
+            }
+            if (prfStudyComp == id.Prf_Study_Crowd){
+                if (prfStudyComp == "With Company" && majorType == id.Major_Type){compatibility*1.6}
+                else compatibility*1.15;
+            }
+            if (prfStudyAud == id.Prf_Study_Noise){compatibility*1.4};
+            if ((prfStudyAud == "Noise" && id.Prf_Study_Crowd == "Alone") || (prfStudyComp == "Alone" && id.Prf_Study_Noise == "Noise")){
+                compatibility*0.7;
+            }
+            if (specialDiet == "No" && specialDiet == id.Dietary_Status) {compatibility*1.1};
+            if (prfSpecialDiet == "Yes" && prfSpecialDiet == id.Dietary_Status){
+                if (prfSpecialDietInt == "1") {compatibility*0.85}
+                else if (prfSpecialDietInt == "2") {compatibility*0.70}
+                else if (prfSpecialDietInt == "3") {compatibility*0.55}
+                else compatibility*0.4;
+            }
+        }
+        else compatibility = 0;
+    }
+} 
 
 const textNodes = [
     {
@@ -93,12 +282,12 @@ const textNodes = [
             {
                 text: 'Male',
                 nextText: 3,
-                setState: { tGender: 'Male'}
+                setState: { gender: 'Male'}
             },
             {
                 text: 'Female',
                 nextText: 3,
-                setState: { tGender: 'Female'}
+                setState: { gender: 'Female'}
             },
             {
                 text: 'Other',
@@ -263,7 +452,7 @@ const textNodes = [
             {
                 text: 'Foreign',
                 nextText: 7,
-                setState: { nationality: 'Domestic'}
+                setState: { nationality: 'Foreign'}
             }
         ]
     },
@@ -295,7 +484,7 @@ const textNodes = [
     },
     {
         id: 8,
-        text: '8. What is your Monthly Budget?',
+        text: '8. What is your Monthly Budget? (In DKK)',
         options: [
             {
                 text: 'Next Question',
@@ -688,7 +877,7 @@ const textNodes = [
             },
             {
                 text: 'After Midnight',
-                nextText: 28,
+                nextText: 30,
                 setState: { sleepyTime: 'After Midnight'}
             }
         ]
@@ -830,10 +1019,21 @@ const textNodes = [
         text: '20. Are you ready to find your matching roommate?',
         options: [
             {
-                text: 'Calculate'
+                text: 'Calculate',
+                nextText: 36
             }
         ]
     },
+    {
+        id: 36,
+        text: 'Your Ideal roommate is Applicant No. [], who has the email-address of []. ',
+        options: [
+            {
+                text: 'Calculate',
+                nextText: -1
+            }
+        ]
+    }
 /*    {
         id: 2,
         text: 'you venture forth',

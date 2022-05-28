@@ -16,6 +16,16 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
   });
 
+  app.get('/addapp', (req, res) => {
+    let post = {gender: 'Male', email: 'prf11@hotmail.com'};
+    let sql = "INSERT INTO applicants.applicant_info (gender, email) VALUES " + post;
+    let query = connection.query(sql, post, (err, result) => {
+        if(err){ throw err}
+        console.log(result);
+        res.send('Applicant Registered.');  
+    });
+});
+
 app.use(express.static('public'))
 
 app.use( bodyParser.json() ); 
@@ -27,11 +37,16 @@ app.use(cors());
 app.listen(port, ()=>{
     connection.connect((err) => {
         if(err) {
-          console.log('Database not connected!', err);
-        } else {
+          throw err
+        }
           console.log(`Server is running on port ${port}`);
           console.log('Database Connected!');
-        }
+          var sql = "SELECT * FROM applicants.applicant_info;";
+          let query = connection.query(sql, (err, results) => {
+            if(err) throw err;
+            console.log(results);
+        });
+
     })
 });
 
