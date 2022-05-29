@@ -6,7 +6,7 @@ function getTextBox(boxID) {
     return document.getElementById(boxID).value;
   }
 
-function startGame() {
+function startSurvey() {
     state = {};
     showTextNode(1);
 }
@@ -61,7 +61,7 @@ function selectOption(option, textNodeIndex) {
     var boxText = 'nig';
     const nextTextNodeId = option.nextText;
     if (nextTextNodeId <= 0) {
-        return startGame();
+        return startSurvey();
     }
     state = Object.assign(state, option.setState);
     console.log(state);
@@ -1057,4 +1057,4 @@ const textNodes = [
     } */
 ]
 
-startGame(); 
+startSurvey(); 
