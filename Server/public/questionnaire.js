@@ -130,7 +130,7 @@ console.log("query("+finalQuery+")");
 
 function calculate(info){
     let id;
-    for(i = 1; i < id.number; i++){
+    for(id.number = 1; id.number < noOfApplicants; id.number++){
         if (info.section == id.Aalborg_Section && info.budget >= id.Monthly_Budget){
             var compatibility = 100;
             if (info.smokeStatus == id.Smoke_Status){
@@ -261,6 +261,7 @@ function calculate(info){
             }
         }
         else compatibility = 0;
+        id.calculated_mod = compatibility;
     }
 } 
 
@@ -1038,27 +1039,6 @@ const textNodes = [
             }
         ]
     }
-/*    {
-        id: 2,
-        text: 'you venture forth',
-        options: [
-            {
-                text: 'trade goo for sword',
-                requiredState: (currentState) => currentState.blueGoo,
-                setState: { blueGoo: false, sword: true},
-                nextText: 3
-            },
-            {
-                text: 'trade goo for shield',
-                requiredState: (currentState) => currentState.blueGoo,
-                nextText: 3
-            },
-            {
-                text: 'Ignore',
-                nextText: 3
-            },
-        ]
-    } */
 ]
 
 startSurvey(); 
