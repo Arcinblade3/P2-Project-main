@@ -32,7 +32,7 @@ function showTextNode(textNodeIndex) {
     }
 
     textNode.options.forEach(option => {
-        if (showOption(option) && textNodeIndex != 35) {
+        if ((showOption(option) && textNodeIndex != 35) || (showOption(option) && textNodeIndex === 35 && option.text === "No")) {
             const button = document.createElement('button');
             button.innerText = option.text;
             button.classList.add('btn');
@@ -42,7 +42,7 @@ function showTextNode(textNodeIndex) {
             button.addEventListener('click', () => selectOption(option, textNodeIndex));
             optionButtonsElement.appendChild(button); 
         }
-        if (showOption(option) && textNodeIndex === 35){
+        else if (showOption(option) && textNodeIndex === 35){
             const button = document.createElement('button');
             button.innerText = "Calculate";
             button.type = "submit"
@@ -1021,6 +1021,10 @@ const textNodes = [
             {
                 text: 'Calculate',
                 nextText: 36
+            },
+            {
+                text: 'No',
+                nextText: -1
             }
         ]
     },
