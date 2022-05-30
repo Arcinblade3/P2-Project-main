@@ -130,38 +130,38 @@ console.log("query("+finalQuery+")");
 
 function calculate(info){
     let id;
-    for(i = 1; i < id; i++){
-        if (section == id.Aalborg_Section && budget >= id.Monthly_Budget){
+    for(i = 1; i < id.number; i++){
+        if (info.section == id.Aalborg_Section && info.budget >= id.Monthly_Budget){
             var compatibility = 100;
-            if (smokeStatus == id.Smoke_Status){
+            if (info.smokeStatus == id.Smoke_Status){
             compatibility*1.15;
             }
-            if (prfSmoke == "Yes" && id.Smoke_Status == "Yes"){
-                if (prfSmokeInt == "1"){compatibility*0.9;}
-                else if (prfSmokeInt == "2"){compatibility*0.7;}
-                else if (prfSmokeInt == "3"){compatibility*0.5;}
+            if (info.prfSmoke == "Yes" && id.Smoke_Status == "Yes"){
+                if (info.prfSmokeInt == "1"){compatibility*0.9;}
+                else if (info.prfSmokeInt == "2"){compatibility*0.7;}
+                else if (info.prfSmokeInt == "3"){compatibility*0.5;}
                 else compatibility*0.3;
             }
-            if (prfGender == "Yes"){
-                if (prfGenderSpec == id.Gender){compatibility*1.5;}
+            if (info.prfGender == "Yes"){
+                if (info.prfGenderSpec == id.Gender){compatibility*1.5;}
                 else compatibility*0.65;
             }
-            if (prfAge == "Yes"){
-                if (prfAgeSpec == id.Prf_Age_Specifics){compatibility*1.2}
-                if (prfAgeSpec == id.Age_Range){
-                    if (prfAgeInt == "1"){compatibility*1.1}
-                    else if (prfAgeInt == "2"){compatibility*1.2}
-                    else if (prfAgeInt == "3"){compatibility*1.3}
+            if (info.prfAge == "Yes"){
+                if (info.prfAgeSpec == id.Prf_Age_Specifics){compatibility*1.2}
+                if (info.prfAgeSpec == id.Age_Range){
+                    if (info.prfAgeInt == "1"){compatibility*1.1}
+                    else if (info.prfAgeInt == "2"){compatibility*1.2}
+                    else if (info.prfAgeInt == "3"){compatibility*1.3}
                     else compatibility*1.4;
                 }
                 else {
-                    if (prfAgeInt == "1"){compatibility*0.8}
-                    else if (prfAgeInt == "2"){compatibility*0.7}
-                    else if (prfAgeInt == "3"){compatibility*0.6}
+                    if (info.prfAgeInt == "1"){compatibility*0.8}
+                    else if (info.prfAgeInt == "2"){compatibility*0.7}
+                    else if (info.prfAgeInt == "3"){compatibility*0.6}
                     else compatibility*0.5;
                 }
             }
-            if (prfFaith == "Yes"){
+            if (info.prfFaith == "Yes"){
                 if (id.Faith_Status == "Yes"){compatibility*1.2}
                 else compatibility*0.75;
             }
@@ -169,94 +169,94 @@ function calculate(info){
                 if (id.Faith_Status == "No"){compatibility*1.3}
                 else compatibility*0.75;
             }
-            if (prfNat == "Yes"){
-                if (prfNatSpec == id.Nationality) {compatibility*1.5}
+            if (info.prfNat == "Yes"){
+                if (info.prfNatSpec == id.Nationality) {compatibility*1.5}
                 else compatibility*0.8;
             }
-            if (prfUni == "Yes"){
-                if (prfUniSpec == "Same Semester"){
-                    if (semester == id.Semester){compatibility*1.25}
+            if (info.prfUni == "Yes"){
+                if (info.prfUniSpec == "Same Semester"){
+                    if (info.semester == id.Semester){compatibility*1.25}
                 }
-                else if (prfUniSpec == "Same Major Type") {
-                    if (majorType == id.Major_Type){compatibility*1.25}
+                else if (info.prfUniSpec == "Same Major Type") {
+                    if (info.majorType == id.Major_Type){compatibility*1.25}
                 }
-                else if (prfUniSpec == "Both") {
-                    if (majorType == id.Major_Type && semester == id.Semester) {compatibility*1.55}
-                    else if (majorType == id.Major_Type || semester == id.Semester) {compatibility*1.25}
+                else if (info.prfUniSpec == "Both") {
+                    if (info.majorType == id.Major_Type && info.semester == id.Semester) {compatibility*1.55}
+                    else if (info.majorType == id.Major_Type || info.semester == id.Semester) {compatibility*1.25}
                 }
-                else if (prfUniSpec == "Neither") {
-                    if (majorType != id.Major_Type && semester != id.Semester) {compatibility*1.55}
-                    else if (majorType != id.Major_Type || semester != id.Semester) {compatibility*1.25}
+                else if (info.prfUniSpec == "Neither") {
+                    if (info.majorType != id.Major_Type && info.semester != id.Semester) {compatibility*1.55}
+                    else if (info.majorType != id.Major_Type || info.semester != id.Semester) {compatibility*1.25}
                 };
             }
-            if (prfNat == "Yes"){
-                if (prfNatSpec == id.Nationality){compatibility*1.35}
+            if (info.prfNat == "Yes"){
+                if (info.prfNatSpec == id.Nationality){compatibility*1.35}
                 else compatibility*0.7;
             }
-            if (visitors == id.Visitor_Status){
+            if (info.visitors == id.Visitor_Status){
                 compatibility*1.1;
             }
             else compatibility*0.9;
-            if (prfVisitors == "Yes"){
-                if (prfVisitorsSpec == "Very Rarely"){
+            if (info.prfVisitors == "Yes"){
+                if (info.prfVisitorsSpec == "Very Rarely"){
                     if (id.Visitor_Status == "Every Day"){compatibility*0.8*0.8*0.8*0.8*0.8}
                     else if (id.Visitor_Status == "A few times a week") {compatibility*0.8*0.8*0.8*0.8}
                     else if (id.Visitor_Status == "Once a week") {compatibility*0.8*0.8*0.8}
                     else if (id.Visitor_Status == "Once a month") {compatibility*0.8*0.8}
                     else if (id.Visitor_Status == "Very Rarely") {compatibility*0.8}
                 }
-                else if (prfVisitorsSpec == "Once a month"){
+                else if (info.prfVisitorsSpec == "Once a month"){
                     if (id.Visitor_Status == "Every Day"){compatibility*0.8*0.8*0.8*0.8}
                     else if (id.Visitor_Status == "A few times a week") {compatibility*0.8*0.8*0.8}
                     else if (id.Visitor_Status == "Once a week") {compatibility*0.8*0.8}
                     else if (id.Visitor_Status == "Once a month") {compatibility*0.8}
                     else compatibility*1.3;
                 }
-                else if (prfVisitorsSpec == "Once a week"){
+                else if (info.prfVisitorsSpec == "Once a week"){
                     if (id.Visitor_Status == "Every Day"){compatibility*0.8*0.8*0.8}
                     else if (id.Visitor_Status == "A few times a week") {compatibility*0.8*0.8}
                     else if (id.Visitor_Status == "Once a week") {compatibility*0.8}
                     else compatibility*1.3;        
                 }
-                else if (prfVisitorsSpec == "A few times a week"){
+                else if (info.prfVisitorsSpec == "A few times a week"){
                     if (id.Visitor_Status == "Every Day"){compatibility*0.8*0.8}
                     else if (id.Visitor_Status == "A few times a week") {compatibility*0.8}
                     else compatibility*1.3;        
                 }
-                else if (prfVisitorsSpec == "Every Day"){
+                else if (info.prfVisitorsSpec == "Every Day"){
                     if (id.Visitor_Status == "Every Day"){compatibility*0.8}
                     else compatibility*1.3;
                 }
             }
-            if (sleepyTime == id.Sleep_Schedule) {compatibility*1.15}
+            if (info.sleepyTime == id.Sleep_Schedule) {compatibility*1.15}
             else compatibility*0.85;
-            if (prfSleep == "Yes"){
+            if (info.prfSleep == "Yes"){
                 if (id.Sleep_Schedule == "Before Midnight"){
-                    if (prfSleepInt == "1"){compatibility*0.95}
-                    else if (prfSleepInt == "2"){compatibility*0.8}
-                    else if (prfSleepInt == "3"){compatibility*0.65}
+                    if (info.prfSleepInt == "1"){compatibility*0.95}
+                    else if (info.prfSleepInt == "2"){compatibility*0.8}
+                    else if (info.prfSleepInt == "3"){compatibility*0.65}
                     else compatibility*0.5;
                 }
                 else if (id.Sleep_Schedule == "After Midnight"){
-                    if (prfSleepInt == "1"){compatibility*0.8}
-                    else if (prfSleepInt == "2"){compatibility*0.6}
-                    else if (prfSleepInt == "3"){compatibility*0.4}
+                    if (info.prfSleepInt == "1"){compatibility*0.8}
+                    else if (info.prfSleepInt == "2"){compatibility*0.6}
+                    else if (info.prfSleepInt == "3"){compatibility*0.4}
                     else compatibility*0.2;
                 }
             }
-            if (prfStudyComp == id.Prf_Study_Crowd){
-                if (prfStudyComp == "With Company" && majorType == id.Major_Type){compatibility*1.6}
+            if (info.prfStudyComp == id.Prf_Study_Crowd){
+                if (info.prfStudyComp == "With Company" && info.majorType == id.Major_Type){compatibility*1.6}
                 else compatibility*1.15;
             }
-            if (prfStudyAud == id.Prf_Study_Noise){compatibility*1.4};
-            if ((prfStudyAud == "Noise" && id.Prf_Study_Crowd == "Alone") || (prfStudyComp == "Alone" && id.Prf_Study_Noise == "Noise")){
+            if (info.prfStudyAud == id.Prf_Study_Noise){compatibility*1.4};
+            if ((info.prfStudyAud == "Noise" && id.Prf_Study_Crowd == "Alone") || (info.prfStudyComp == "Alone" && id.Prf_Study_Noise == "Noise")){
                 compatibility*0.7;
             }
-            if (specialDiet == "No" && specialDiet == id.Dietary_Status) {compatibility*1.1};
-            if (prfSpecialDiet == "Yes" && prfSpecialDiet == id.Dietary_Status){
-                if (prfSpecialDietInt == "1") {compatibility*0.85}
-                else if (prfSpecialDietInt == "2") {compatibility*0.70}
-                else if (prfSpecialDietInt == "3") {compatibility*0.55}
+            if (info.specialDiet == "No" && info.specialDiet == id.Dietary_Status) {compatibility*1.1};
+            if (info.prfSpecialDiet == "Yes" && info.prfSpecialDiet == id.Dietary_Status){
+                if (info.prfSpecialDietInt == "1") {compatibility*0.85}
+                else if (info.prfSpecialDietInt == "2") {compatibility*0.70}
+                else if (info.prfSpecialDietInt == "3") {compatibility*0.55}
                 else compatibility*0.4;
             }
         }
