@@ -58,7 +58,6 @@ function showOption(option) {
 }
 
 function selectOption(option, textNodeIndex) {
-    var boxText = 'nig';
     const nextTextNodeId = option.nextText;
     if (nextTextNodeId <= 0) {
         return startSurvey();
@@ -66,6 +65,7 @@ function selectOption(option, textNodeIndex) {
     state = Object.assign(state, option.setState);
     console.log(state);
     if (textNodeIndex === 1 || textNodeIndex === 8) {
+        var boxText = '';
         if (textNodeIndex === 1) {
             boxText = { email: getTextBox('inputBox') };
             state = Object.assign(state, boxText);
